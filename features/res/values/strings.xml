@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-License-Identifier: Apache-2.0
+     SPDX-FileCopyrightText: 2026 The halogenOS Project
+-->
+<resources>
+    <string name="off">Off</string>
+    <string name="on">On</string>
+    <string name="unavailable">Unavailable</string>
+    <string name="paused_by_schedule">Paused by schedule</string>
+    <string name="glyph">Glyph</string>
+    <string name="torch">Glyph torch</string>
+    <string name="calls">Calls</string>
+    <string name="calls_enabled">Light up for incoming calls</string>
+    <string name="notifications">Notifications</string>
+    <string name="notifications_enabled">Light up for notifications</string>
+    <string name="ringtone_lights">Use the ringtone\'s lights</string>
+    <string name="ringtone_lights_summary">When the ringtone is a Glyph composition, play its own lights with it</string>
+    <string name="sound_lights">Use the sound\'s lights</string>
+    <string name="sound_lights_summary">When a notification sound is a Glyph composition, play its own lights instead</string>
+    <string name="animation">Animation</string>
+    <string name="apps">Apps</string>
+    <string name="essential">Essential</string>
+    <string name="essential_summary">Keep a light on until you dismiss its notifications</string>
+    <string name="essential_zone_hint">Tap the Glyph that should stay lit</string>
+    <string name="flip">Flip to Glyph</string>
+    <string name="flip_summary">Lay the phone face down to play a light and switch the ringer</string>
+    <string name="flip_ringer">Ringer while face down</string>
+    <string name="flip_ringer_summary">%1$s while face down</string>
+    <string name="ringer_vibrate">Vibrate</string>
+    <string name="ringer_silent">Silent</string>
+    <string name="ringer_normal">Ring</string>
+    <string name="volume_level">Volume level</string>
+    <string name="volume_level_summary">Show the volume while you change it</string>
+    <string name="charging">Charging</string>
+    <string name="charging_battery_level">Battery level when charging</string>
+    <string name="charging_reverse">Reverse charging</string>
+    <string name="charging_reverse_summary">Light up when you place a device on the back to charge it</string>
+    <string name="charging_battery_level_summary">Show it when you plug in, and when you move the phone while it lies flat on a cable charger</string>
+    <string name="music_visualizer">Music visualizer</string>
+    <string name="music_visualizer_summary">Light up to the beat of the music that is playing</string>
+    <string name="sdk_apps">Let apps control the Glyphs</string>
+    <string name="sdk_apps_summary">Apps made for the Glyph Interface can light it while nothing else does</string>
+    <string name="progress">Glyph Progress</string>
+    <string name="progress_summary">Live progress from apps</string>
+    <string name="progress_enabled">Show progress</string>
+    <string name="progress_enabled_summary">Fill the ring as rides, deliveries and other live updates go on</string>
+    <string name="progress_song_position">Song position</string>
+    <string name="progress_song_position_summary">Fill the ring as the playing song goes on, when no app shows progress</string>
+    <string name="timer">Glyph Timer</string>
+    <string name="timer_summary">%1$s · Start it from Quick Settings</string>
+    <string name="timer_how_to">Tap the Glyph Timer tile in Quick Settings, then lay the phone face down to start. The ring counts down and lights up when the time is up. Tap the tile again to pause, resume or stop.</string>
+    <string name="timer_duration">Duration</string>
+    <string name="timer_minutes">Minutes</string>
+    <string name="timer_seconds">Seconds</string>
+    <string name="timer_mute_alarm">Mute alarm</string>
+    <string name="timer_mute_alarm_summary">Only the lights show that the time is up</string>
+    <string name="timer_clock_timers">Show clock timers</string>
+    <string name="timer_clock_timers_summary">Count down the timers of the Clock app on the ring</string>
+    <string name="timer_lay_face_down">Lay face down to start</string>
+    <string name="timer_paused_left">Paused · %1$s left</string>
+    <string name="timer_times_up">Time\'s up</string>
+    <string name="timer_pause">Pause</string>
+    <string name="timer_resume">Resume</string>
+    <string name="timer_stop">Stop</string>
+    <string name="timer_channel_countdown">Running timer</string>
+    <string name="timer_channel_alarm">Timer alarm</string>
+    <string name="microphone_light">Microphone light</string>
+    <string name="microphone_light_no_apps">No apps chosen</string>
+    <plurals name="microphone_light_apps">
+        <item quantity="one">Lights up for %d app</item>
+        <item quantity="other">Lights up for %d apps</item>
+    </plurals>
+    <string name="microphone_light_enabled">Light up for the microphone</string>
+    <string name="microphone_light_enabled_summary">Turn on the red light while an app below uses the microphone, just like the microphone dot in the status bar</string>
+    <string name="microphone_light_style">Light style</string>
+    <string name="microphone_light_blink">Blink</string>
+    <string name="microphone_light_breathe">Breathe</string>
+    <string name="microphone_light_steady">Steady</string>
+</resources>

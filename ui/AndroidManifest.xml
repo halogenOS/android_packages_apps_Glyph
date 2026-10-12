@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-License-Identifier: Apache-2.0
+     SPDX-FileCopyrightText: 2026 The halogenOS Project
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="custom.glyph.ui">
+
+    <application>
+        <activity
+            android:name="custom.glyph.ui.GlyphActivity"
+            android:exported="true"
+            android:label="@string/glyph_interface"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.system" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_glyph" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/glyph_interface_summary" />
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-255" />
+        </activity>
+        <activity
+            android:name="custom.glyph.ui.studio.ImportActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:label="@string/studio_import"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/json" />
+                <data android:mimeType="application/octet-stream" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="custom.glyph.files"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/shared_files" />
+        </provider>
+
+        <activity
+            android:name="custom.glyph.ui.studio.StudioActivity"
+            android:exported="false"
+            android:label="@string/studio"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
+    </application>
+</manifest>

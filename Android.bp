@@ -1,0 +1,108 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 The halogenOS Project
+//
+
+soong_namespace {
+}
+
+android_library {
+    name: "GlyphCore",
+    sdk_version: "system_current",
+    manifest: "core/AndroidManifest.xml",
+    srcs: ["core/src/**/*.kt"],
+    kotlin_plugins: ["kotlin-serialize-compiler-plugin"],
+    static_libs: [
+        "androidx.datastore_datastore-preferences",
+        "kotlinx_coroutines_android",
+        "kotlinx_serialization_json",
+    ],
+}
+
+android_library {
+    name: "GlyphUi",
+    sdk_version: "system_current",
+    manifest: "ui/AndroidManifest.xml",
+    srcs: ["ui/src/**/*.kt"],
+    resource_dirs: ["ui/res"],
+    static_libs: [
+        "GlyphCore",
+        "androidx.activity_activity-compose",
+        "androidx.compose.foundation_foundation",
+        "androidx.compose.material3_material3",
+        "androidx.compose.material_material-icons-core",
+        "androidx.compose.runtime_runtime",
+        "androidx.compose.ui_ui",
+        "androidx.compose.ui_ui-graphics",
+        "androidx.core_core-ktx",
+        "androidx.lifecycle_lifecycle-runtime-compose",
+        "androidx.lifecycle_lifecycle-viewmodel-compose",
+    ],
+}
+
+android_library {
+    name: "GlyphFeatures",
+    sdk_version: "system_current",
+    manifest: "features/AndroidManifest.xml",
+    srcs: [
+        "features/src/**/*.kt",
+        ":GlyphSdkHostAidl",
+    ],
+    aidl: {
+        local_include_dirs: ["bridge/aidl"],
+    },
+    resource_dirs: ["features/res"],
+    kotlin_plugins: ["kotlin-serialize-compiler-plugin"],
+    static_libs: [
+        "kotlinx_serialization_json",
+        "GlyphUi",
+        "androidx.compose.runtime_runtime",
+    ],
+}
+
+java_defaults {
+    name: "Glyph_defaults",
+    certificate: "platform",
+    sdk_version: "system_current",
+    privileged: true,
+    vendor: true,
+
+    manifest: "app/AndroidManifest.xml",
+    srcs: ["app/src/**/*.kt"],
+    static_libs: ["GlyphFeatures"],
+
+    required: ["GlyphSdkBridge"],
+}
+
+android_app {
+    name: "GlyphPong",
+    defaults: ["Glyph_defaults"],
+    asset_dirs: ["devices/pong/assets"],
+}
+
+android_app {
+    name: "GlyphSpacewar",
+    defaults: ["Glyph_defaults"],
+    asset_dirs: ["devices/spacewar/assets"],
+}
+
+filegroup {
+    name: "GlyphSdkHostAidl",
+    srcs: ["bridge/aidl/custom/glyph/sdk/ISdkHost.aidl"],
+    path: "bridge/aidl",
+}
+
+android_app {
+    name: "GlyphSdkBridge",
+    certificate: "platform",
+    sdk_version: "system_current",
+    vendor: true,
+
+    manifest: "bridge/AndroidManifest.xml",
+    srcs: [
+        "bridge/aidl/**/*.aidl",
+        "bridge/src/**/*.kt",
+    ],
+    aidl: {
+        local_include_dirs: ["bridge/aidl"],
+    },
+}

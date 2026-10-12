@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-License-Identifier: Apache-2.0
+     SPDX-FileCopyrightText: 2026 The halogenOS Project
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="custom.glyph.features">
+
+    <permission
+        android:name="custom.glyph.permission.SDK_HOST"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.android.deskclock.permission.RECEIVE_TIMER_STATE" />
+
+    <application>
+        <service
+            android:name="custom.glyph.features.sdk.SdkHostService"
+            android:exported="true"
+            android:permission="custom.glyph.permission.SDK_HOST" />
+
+        <service
+            android:name="custom.glyph.features.main.GlyphTile"
+            android:exported="true"
+            android:icon="@drawable/ic_glyph"
+            android:label="@string/glyph"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
+        </service>
+
+        <service
+            android:name="custom.glyph.features.torch.TorchTile"
+            android:exported="true"
+            android:icon="@drawable/ic_glyph_torch"
+            android:label="@string/torch"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
+        </service>
+
+        <service
+            android:name="custom.glyph.features.visualizer.VisualizerTile"
+            android:exported="true"
+            android:icon="@drawable/ic_glyph_visualizer"
+            android:label="@string/music_visualizer"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
+        </service>
+
+        <service
+            android:name="custom.glyph.features.timer.TimerTile"
+            android:exported="true"
+            android:icon="@drawable/ic_glyph_timer"
+            android:label="@string/timer"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
+        </service>
+
+        <receiver
+            android:name="custom.glyph.features.timer.TimerActionReceiver"
+            android:exported="false" />
+    </application>
+
+</manifest>

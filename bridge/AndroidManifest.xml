@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-License-Identifier: Apache-2.0
+     SPDX-FileCopyrightText: 2026 The halogenOS Project
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.nothing.thirdparty"
+    android:sharedUserId="android.uid.system">
+
+    <permission
+        android:name="com.nothing.ketchum.permission.ENABLE"
+        android:protectionLevel="normal" />
+
+    <uses-permission android:name="custom.glyph.permission.SDK_HOST" />
+
+    <application
+        android:label="Glyph SDK"
+        android:directBootAware="true">
+
+        <service
+            android:name=".GlyphService"
+            android:exported="true"
+            android:permission="com.nothing.ketchum.permission.ENABLE">
+            <intent-filter>
+                <action android:name="com.nothing.thirdparty.bind_glyphservice" />
+            </intent-filter>
+        </service>
+
+    </application>
+</manifest>
