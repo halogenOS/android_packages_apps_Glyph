@@ -34,15 +34,17 @@ fun SettingsCard(content: @Composable () -> Unit) {
 
 @Composable
 fun SwitchRow(title: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit, summary: String? = null, enabled: Boolean = true) {
-    SettingsRow(title, summary, onClick = { onCheckedChange(!checked) }, enabled = enabled) {
-        Switch(checked = checked, onCheckedChange = onCheckedChange, enabled = enabled)
+    val usable = enabled && LocalControlsEnabled.current
+    SettingsRow(title, summary, onClick = { onCheckedChange(!checked) }, enabled = usable) {
+        Switch(checked = checked, onCheckedChange = onCheckedChange, enabled = usable)
     }
 }
 
 @Composable
 fun LinkRow(title: String, summary: String?, onClick: () -> Unit) {
-    SettingsRow(title, summary, onClick) {
-        Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
+    val usable = LocalControlsEnabled.current
+    SettingsRow(title, summary, onClick, enabled = usable) {
+        Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null, modifier = Modifier.dimmedUnless(usable))
     }
 }
 
@@ -51,7 +53,7 @@ private fun SettingsRow(
     title: String,
     summary: String?,
     onClick: () -> Unit,
-    enabled: Boolean = true,
+    enabled: Boolean,
     trailing: @Composable () -> Unit,
 ) {
     Row(
@@ -60,7 +62,7 @@ private fun SettingsRow(
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Column(Modifier.weight(1f).padding(end = TRAILING_GAP)) {
+        Column(Modifier.weight(1f).padding(end = TRAILING_GAP).dimmedUnless(enabled)) {
             Text(title, style = MaterialTheme.typography.titleMedium)
             summary?.let { Text(it, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
         }

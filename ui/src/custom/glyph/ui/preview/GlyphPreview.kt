@@ -25,6 +25,8 @@ import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.input.pointer.pointerInput
 import custom.glyph.device.GlyphDevice
 import custom.glyph.frame.Frame
+import custom.glyph.ui.settings.LocalControlsEnabled
+import custom.glyph.ui.settings.dimmedUnless
 
 @Immutable
 data class PreviewColors(
@@ -37,7 +39,7 @@ data class PreviewColors(
 
 /**
  * The back of the phone with every LED drawn at the level [frame] gives it, and the [selected]
- * LEDs outlined. Tapping near a zone reports it through [onZoneTap].
+ * LEDs outlined. Tapping near a zone reports it through [onZoneTap], while controls are enabled.
  */
 @Composable
 fun GlyphPreview(
@@ -48,7 +50,8 @@ fun GlyphPreview(
     selected: Set<Int> = emptySet(),
     onZoneTap: ((GlyphDevice.Zone) -> Unit)? = null,
 ) {
-    val tap = onZoneTap?.let { callback ->
+    val usable = LocalControlsEnabled.current
+    val tap = onZoneTap?.takeIf { usable }?.let { callback ->
         Modifier.pointerInput(geometry, callback) {
             detectTapGestures { position ->
                 val scale = size.width / geometry.size.width
@@ -57,7 +60,7 @@ fun GlyphPreview(
         }
     } ?: Modifier
 
-    Canvas(modifier.aspectRatio(geometry.size.width / geometry.size.height, matchHeightConstraintsFirst = true).then(tap)) {
+    Canvas(modifier.aspectRatio(geometry.size.width / geometry.size.height, matchHeightConstraintsFirst = true).dimmedUnless(usable).then(tap)) {
         scale(size.width / geometry.size.width, pivot = Offset.Zero) {
             drawRoundRect(colors.body, size = geometry.size, cornerRadius = CornerRadius(geometry.cornerRadius))
             if (selected.isNotEmpty()) {

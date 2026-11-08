@@ -13,8 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import custom.glyph.ui.R
+import custom.glyph.ui.settings.LocalControlsEnabled
 import custom.glyph.ui.settings.SettingsCard
 import custom.glyph.ui.settings.SwitchRow
+import custom.glyph.ui.settings.dimmedUnless
 
 @Composable
 fun BrightnessSettings(
@@ -25,17 +27,18 @@ fun BrightnessSettings(
     onAuto: (Boolean) -> Unit,
 ) {
     val automatic = auto && autoAvailable
+    val usable = LocalControlsEnabled.current
     SettingsCard {
         Text(
             stringResource(R.string.brightness),
             style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp).dimmedUnless(usable),
         )
         Slider(
             value = brightness,
             onValueChange = onBrightness,
             valueRange = MIN_BRIGHTNESS..1f,
-            enabled = !automatic,
+            enabled = usable && !automatic,
             modifier = Modifier.padding(horizontal = 16.dp),
         )
         if (autoAvailable) {

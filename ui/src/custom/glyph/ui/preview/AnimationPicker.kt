@@ -36,6 +36,8 @@ import custom.glyph.animation.CompositionLibrary
 import custom.glyph.animation.UserAnimations
 import custom.glyph.glyph
 import custom.glyph.ui.R
+import custom.glyph.ui.settings.LocalControlsEnabled
+import custom.glyph.ui.settings.dimmedUnless
 
 /** What one can pick for [category]: its animations, then the user's own and their compositions; empty until they are read. */
 @Composable
@@ -60,9 +62,10 @@ fun AnimationPicker(
     val preview = rememberAnimationPreview()
     val playing by preview.playing.collectAsStateWithLifecycle()
     val groups = animations.groupBy { it.category }
+    val usable = enabled && LocalControlsEnabled.current
 
     @Composable
-    fun Choice(entry: AnimationEntry) = AnimationChoice(entry, entry.id == selectedId, entry == playing, enabled) {
+    fun Choice(entry: AnimationEntry) = AnimationChoice(entry, entry.id == selectedId, entry == playing, usable) {
         onSelect(entry)
         preview.toggle(entry)
     }
@@ -93,7 +96,7 @@ private fun AnimationChoice(entry: AnimationEntry, selected: Boolean, playing: B
             text = entry.animation.name,
             style = MaterialTheme.typography.bodyLarge,
             color = if (playing) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(start = 16.dp),
+            modifier = Modifier.padding(start = 16.dp).dimmedUnless(enabled),
         )
     }
 }

@@ -21,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -35,8 +36,10 @@ import custom.glyph.ui.feature.FeatureEntry
 import custom.glyph.ui.feature.FeatureSection
 import custom.glyph.ui.preview.GlyphGeometry
 import custom.glyph.ui.preview.GlyphPreview
+import custom.glyph.ui.settings.LocalControlsEnabled
 import custom.glyph.ui.settings.SettingsCard
 import custom.glyph.ui.settings.SwitchRow
+import custom.glyph.ui.settings.dimmedUnless
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,11 +79,15 @@ fun HomeScreen(viewModel: HomeViewModel, sections: List<FeatureSection>, onOpen:
                 text = stringResource(R.string.preview_hint),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.dimmedUnless(LocalControlsEnabled.current),
             )
             LazyColumn(Modifier.weight(1f).fillMaxWidth(), contentPadding = PaddingValues(bottom = 24.dp)) {
                 item(key = "enabled") {
-                    SettingsCard {
-                        SwitchRow(stringResource(R.string.use_glyphs), enabled, viewModel::setEnabled)
+                    // The switch that turns the Glyphs back on stays usable while everything else is off.
+                    CompositionLocalProvider(LocalControlsEnabled provides true) {
+                        SettingsCard {
+                            SwitchRow(stringResource(R.string.use_glyphs), enabled, viewModel::setEnabled)
+                        }
                     }
                 }
                 item(key = "brightness") {

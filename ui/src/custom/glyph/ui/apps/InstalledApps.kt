@@ -27,6 +27,8 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
+import custom.glyph.ui.settings.LocalControlsEnabled
+import custom.glyph.ui.settings.dimmedUnless
 import java.text.Collator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -47,16 +49,19 @@ fun installedApps(permission: String? = null): State<List<InstalledApp>> {
 /** An app with its icon and a switch; tapping the row itself calls [onClick]. */
 @Composable
 fun AppSwitchRow(app: InstalledApp, summary: String?, checked: Boolean, onCheckedChange: (Boolean) -> Unit, onClick: () -> Unit) {
+    val usable = LocalControlsEnabled.current
     Row(
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 10.dp),
+        modifier = Modifier.fillMaxWidth().clickable(enabled = usable, onClick = onClick).padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(app.icon, contentDescription = null, modifier = Modifier.size(40.dp))
-        Column(Modifier.weight(1f).padding(horizontal = 16.dp)) {
-            Text(app.label, style = MaterialTheme.typography.titleMedium)
-            summary?.let { Text(it, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+        Row(Modifier.weight(1f).dimmedUnless(usable), verticalAlignment = Alignment.CenterVertically) {
+            Image(app.icon, contentDescription = null, modifier = Modifier.size(40.dp))
+            Column(Modifier.weight(1f).padding(horizontal = 16.dp)) {
+                Text(app.label, style = MaterialTheme.typography.titleMedium)
+                summary?.let { Text(it, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            }
         }
-        Switch(checked = checked, onCheckedChange = onCheckedChange)
+        Switch(checked = checked, onCheckedChange = onCheckedChange, enabled = usable)
     }
 }
 
