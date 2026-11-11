@@ -9,21 +9,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.viewmodel.compose.viewModel
 import custom.glyph.glyph
 import custom.glyph.ui.feature.FeatureEntry
-import custom.glyph.ui.feature.FeatureScreen
 import custom.glyph.ui.feature.featureEntries
-import custom.glyph.ui.home.HomeScreen
-import custom.glyph.ui.home.HomeViewModel
 import custom.glyph.ui.settings.LocalControlsEnabled
 import custom.glyph.ui.settings.rememberSetting
 import custom.glyph.ui.theme.GlyphTheme
@@ -34,18 +25,11 @@ class GlyphActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val host = application as FeatureEntry.Host
-        val features = host.featureEntries
+        val requestedPage = intent.requestedPage(host.featureEntries)
         setContent {
             GlyphTheme {
-                var openId by rememberSaveable { mutableStateOf(intent.requestedPage(features)) }
-                val open = features.firstOrNull { it.id == openId }?.page
                 CompositionLocalProvider(LocalControlsEnabled provides rememberSetting(glyph.core.enabled).value) {
-                    if (open == null) {
-                        HomeScreen(viewModel { HomeViewModel(glyph) }, host.featureSections, onOpen = { openId = it.id }, onBack = ::finish)
-                    } else {
-                        BackHandler { openId = null }
-                        FeatureScreen(open, onBack = { openId = null })
-                    }
+                    GlyphScreens(glyph, host, requestedPage, onExit = ::finish)
                 }
             }
         }
